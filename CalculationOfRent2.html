@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argentina Rent Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Apply the Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">🏠 Rent Calculator 🇦🇷</h2>
+        
+        <!-- Input for Blue Dollar Buying Price -->
+        <div class="mb-4">
+            <label for="blueDollarBuying" class="block text-gray-700 text-sm font-semibold mb-2">
+                Blue Dollar Buying Price (ARS):
+            </label>
+            <input type="number" id="blueDollarBuying" value="1000"
+                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+        </div>
+
+        <!-- Input for Blue Dollar Selling Price -->
+        <div class="mb-6">
+            <label for="blueDollarSelling" class="block text-gray-700 text-sm font-semibold mb-2">
+                Blue Dollar Selling Price (ARS):
+            </label>
+            <input type="number" id="blueDollarSelling" value="1050"
+                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+        </div>
+
+        <!-- Input for Inflation Rate -->
+        <div class="mb-6">
+            <label for="inflationRate" class="block text-gray-700 text-sm font-semibold mb-2">
+                Monthly Inflation Rate (%):
+            </label>
+            <input type="number" id="inflationRate" value="2.1" step="0.1"
+                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+        </div>
+
+        <!-- Calculate Button -->
+        <button id="calculateBtn"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full transition duration-200 ease-in-out transform hover:scale-105">
+            Calculate Rent
+        </button>
+
+        <!-- Display Results -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Results:</h3>
+            <p class="text-lg font-semibold text-gray-700 mb-2">
+                Rent in Pesos (before inflation): <span id="rentInPesosDisplay" class="text-blue-700">--</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                Rent in Pesos (with inflation): <span id="rentWithInflationDisplay" class="text-green-700">--</span>
+            </p>
+            <!-- Message box for errors or important information -->
+            <div id="messageBox" class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        // Ensure the DOM is fully loaded before running the script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to input elements
+            const blueDollarBuyingInput = document.getElementById('blueDollarBuying');
+            const blueDollarSellingInput = document.getElementById('blueDollarSelling');
+            const inflationRateInput = document.getElementById('inflationRate');
+            const calculateButton = document.getElementById('calculateBtn');
+            // Get references to display elements
+            const rentInPesosDisplay = document.getElementById('rentInPesosDisplay');
+            const rentWithInflationDisplay = document.getElementById('rentWithInflationDisplay');
+            const messageBox = document.getElementById('messageBox');
+
+            // Function to display messages in the custom message box
+            function showMessage(message, type = 'error') {
+                messageBox.textContent = message;
+                messageBox.classList.remove('hidden', 'bg-red-100', 'border-red-400', 'text-red-700', 'bg-green-100', 'border-green-400', 'text-green-700');
+                if (type === 'error') {
+                    messageBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+                } else {
+                    messageBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+                }
+            }
+
+            // Function to hide the message box
+            function hideMessage() {
+                messageBox.classList.add('hidden');
+                messageBox.textContent = '';
+            }
+
+            // Event listener for the calculate button
+            calculateButton.addEventListener('click', () => {
+                hideMessage(); // Clear previous messages
+
+                // Parse input values as floating-point numbers
+                const blueDollarBuying = parseFloat(blueDollarBuyingInput.value);
+                const blueDollarSelling = parseFloat(blueDollarSellingInput.value);
+                const inflationRate = parseFloat(inflationRateInput.value);
+                const baseRentUSD = 650; // The fixed base rent in USD - UPDATED TO 650
+
+                // Input validation
+                if (isNaN(blueDollarBuying) || blueDollarBuying <= 0) {
+                    showMessage('Please enter a valid (positive) number for Blue Dollar Buying Price.');
+                    return;
+                }
+                if (isNaN(blueDollarSelling) || blueDollarSelling <= 0) {
+                    showMessage('Please enter a valid (positive) number for Blue Dollar Selling Price.');
+                    return;
+                }
+                if (isNaN(inflationRate) || inflationRate < 0) {
+                    showMessage('Please enter a valid (non-negative) number for Monthly Inflation Rate.');
+                    return;
+                    }
+
+                // Calculate the average blue dollar rate
+                const averageBlueDollar = (blueDollarBuying + blueDollarSelling) / 2;
+
+                // Calculate rent in Argentinian Pesos
+                const rentInPesos = baseRentUSD * averageBlueDollar;
+
+                // Calculate rent with inflation
+                // Inflation is added as a percentage, so (1 + rate/100)
+                const rentWithInflation = rentInPesos * (1 + inflationRate / 100);
+
+                // Format results as currency (Argentinian Pesos)
+                const formatter = new Intl.NumberFormat('es-AR', {
+                    style: 'currency',
+                    currency: 'ARS',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+
+                // Update the display elements with the calculated values
+                rentInPesosDisplay.textContent = formatter.format(rentInPesos);
+                rentWithInflationDisplay.textContent = formatter.format(rentWithInflation);
+            });
+
+            // Trigger calculation on page load with default values
+            calculateButton.click();
+        });
+    </script>
+</body>
+</html>
