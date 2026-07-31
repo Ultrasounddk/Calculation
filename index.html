@@ -1,149 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Argentina Rent Calculator</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Apply the Inter font */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Argentina Rent Calculator</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    :root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#657089;--line:#dbe2ec;--accent:#2563eb;--accent2:#0f766e;--danger:#b91c1c;--shadow:0 10px 30px rgba(15,23,42,.08)}
+    @media(prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#111b2e;--ink:#edf4ff;--muted:#a7b4c8;--line:#263650;--accent:#60a5fa;--accent2:#2dd4bf;--danger:#f87171;--shadow:0 12px 34px rgba(0,0,0,.35)}}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    .wrap{max-width:940px;margin:auto;padding:18px 14px 50px}.top{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:14px}.brand h1{font-size:clamp(24px,4vw,38px);margin:0}.brand p{margin:3px 0 0;color:var(--muted)}
+    .lang{display:flex;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;box-shadow:var(--shadow)}.lang button{border:0;background:transparent;color:var(--ink);padding:9px 12px;border-radius:10px;font-weight:700}.lang button.active{background:var(--accent);color:white}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.wide{grid-column:1/-1}.card h2{font-size:19px;margin:0 0 13px}.sub{color:var(--muted);font-size:13px;margin-top:-6px;margin-bottom:13px}
+    label{display:block;font-weight:700;font-size:13px;margin:12px 0 5px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1.2fr .8fr;gap:10px;align-items:end}
+    input,select{width:100%;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);font-size:17px;padding:12px}.read{background:color-mix(in srgb,var(--accent) 8%, transparent);font-weight:800}.status{font-size:12px;color:var(--muted);margin-top:8px}.status.error{color:var(--danger)}
+    button{cursor:pointer}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;background:var(--accent);color:white}.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.green{background:var(--accent2)}.btn.danger{background:transparent;color:var(--danger);border:1px solid color-mix(in srgb,var(--danger) 40%,var(--line))}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+    .result{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{padding:14px;border:1px solid var(--line);border-radius:15px}.metric small{display:block;color:var(--muted);margin-bottom:5px}.metric strong{font-size:20px}.final{background:color-mix(in srgb,var(--accent2) 13%, transparent);border-color:color-mix(in srgb,var(--accent2) 45%,var(--line))}.final strong{font-size:26px}
+    pre{white-space:pre-wrap;background:color-mix(in srgb,var(--ink) 4%, transparent);border:1px solid var(--line);padding:14px;border-radius:14px;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.history{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted)}
+    details{margin-top:12px} summary{cursor:pointer;font-weight:800}.note{font-size:12px;color:var(--muted)}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.top{align-items:flex-start}.brand p{font-size:13px}.row,.row3{grid-template-columns:1fr}.result{grid-template-columns:1fr 1fr}.metric strong{font-size:18px}.final{grid-column:1/-1}}
+    @media print{body{background:white}.top,.input-card,.actions,.history-card,.note,details{display:none!important}.grid{display:block}.card{box-shadow:none;border:0}.report-card{display:block!important}pre{border:0;background:white;font-size:16px}}
+  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">🏠 Rent Calculator 🇦🇷</h2>
-        
-        <!-- Input for Blue Dollar Buying Price -->
-        <div class="mb-4">
-            <label for="blueDollarBuying" class="block text-gray-700 text-sm font-semibold mb-2">
-                Blue Dollar Buying Price (ARS):
-            </label>
-            <input type="number" id="blueDollarBuying" value="1000"
-                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
-        </div>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><h1 data-i="title">Argentina Rent Calculator</h1><p data-i="subtitle">Blue Dollar average + three-month IPC</p></div>
+    <div class="lang"><button id="enBtn">EN</button><button id="esBtn">ES</button></div>
+  </div>
 
-        <!-- Input for Blue Dollar Selling Price -->
-        <div class="mb-6">
-            <label for="blueDollarSelling" class="block text-gray-700 text-sm font-semibold mb-2">
-                Blue Dollar Selling Price (ARS):
-            </label>
-            <input type="number" id="blueDollarSelling" value="1050"
-                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
-        </div>
+  <div class="grid">
+    <section class="card input-card">
+      <h2 data-i="rentTitle">Base rent</h2>
+      <label data-i="baseRent">Base rent (USD)</label><input id="rentUsd" type="number" min="0" step="0.01" value="650">
+      <p class="sub" data-i="rentHelp">The contract's monthly USD amount.</p>
+    </section>
 
-        <!-- Input for Inflation Rate -->
-        <div class="mb-6">
-            <label for="inflationRate" class="block text-gray-700 text-sm font-semibold mb-2">
-                Monthly Inflation Rate (%):
-            </label>
-            <input type="number" id="inflationRate" value="2.1" step="0.1"
-                   class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
-        </div>
+    <section class="card input-card">
+      <h2 data-i="blueTitle">Blue Dollar</h2>
+      <div class="row">
+        <div><label data-i="buy">Compra / Buy</label><input id="blueBuy" type="number" step="0.01"></div>
+        <div><label data-i="sell">Venta / Sell</label><input id="blueSell" type="number" step="0.01"></div>
+      </div>
+      <label data-i="average">Average</label><input id="blueAvg" class="read" readonly>
+      <div class="actions"><button class="btn" id="refreshBlue" data-i="refreshBlue">Download Blue Dollar</button></div>
+      <div id="blueStatus" class="status"></div>
+    </section>
 
-        <!-- Calculate Button -->
-        <button id="calculateBtn"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 w-full transition duration-200 ease-in-out transform hover:scale-105">
-            Calculate Rent
-        </button>
+    <section class="card wide input-card">
+      <h2 data-i="ipcTitle">IPC — latest three published months</h2>
+      <p class="sub" data-i="ipcHelp">The three percentages are added together, according to your landlord's method.</p>
+      <div class="row" id="ipcRows"></div>
+      <div class="row3"><div><label data-i="totalIpc">Total IPC</label><input id="ipcTotal" class="read" readonly></div><button class="btn" id="refreshIpc" data-i="refreshIpc">Download IPC</button></div>
+      <div id="ipcStatus" class="status"></div>
+    </section>
 
-        <!-- Display Results -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-            <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Results:</h3>
-            <p class="text-lg font-semibold text-gray-700 mb-2">
-                Rent in Pesos (before inflation): <span id="rentInPesosDisplay" class="text-blue-700">--</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                Rent in Pesos (with inflation): <span id="rentWithInflationDisplay" class="text-green-700">--</span>
-            </p>
-            <!-- Message box for errors or important information -->
-            <div id="messageBox" class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg hidden"></div>
-        </div>
-    </div>
+    <section class="card wide">
+      <h2 data-i="resultTitle">Calculation</h2>
+      <div class="result">
+        <div class="metric"><small data-i="blueAverage">Blue average</small><strong id="rBlue">—</strong></div>
+        <div class="metric"><small data-i="rentArsBefore">Rent before IPC</small><strong id="rBaseArs">—</strong></div>
+        <div class="metric"><small data-i="ipcIncrease">IPC increase</small><strong id="rIncrease">—</strong></div>
+        <div class="metric final"><small data-i="finalRent">Final rent</small><strong id="rFinal">—</strong></div>
+      </div>
+      <div class="actions"><button class="btn green" id="saveBtn" data-i="save">Save calculation</button><button class="btn secondary" id="copyBtn" data-i="copy">Copy report</button><button class="btn secondary" id="shareBtn" data-i="share">Share</button><button class="btn secondary" id="printBtn" data-i="pdf">Print / PDF</button></div>
+      <details><summary data-i="method">Calculation method</summary><p id="methodText"></p></details>
+    </section>
 
-    <script>
-        // Ensure the DOM is fully loaded before running the script
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get references to input elements
-            const blueDollarBuyingInput = document.getElementById('blueDollarBuying');
-            const blueDollarSellingInput = document.getElementById('blueDollarSelling');
-            const inflationRateInput = document.getElementById('inflationRate');
-            const calculateButton = document.getElementById('calculateBtn');
-            // Get references to display elements
-            const rentInPesosDisplay = document.getElementById('rentInPesosDisplay');
-            const rentWithInflationDisplay = document.getElementById('rentWithInflationDisplay');
-            const messageBox = document.getElementById('messageBox');
+    <section class="card wide report-card">
+      <h2 data-i="reportTitle">Report</h2><pre id="report"></pre>
+    </section>
 
-            // Function to display messages in the custom message box
-            function showMessage(message, type = 'error') {
-                messageBox.textContent = message;
-                messageBox.classList.remove('hidden', 'bg-red-100', 'border-red-400', 'text-red-700', 'bg-green-100', 'border-green-400', 'text-green-700');
-                if (type === 'error') {
-                    messageBox.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
-                } else {
-                    messageBox.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
-                }
-            }
-
-            // Function to hide the message box
-            function hideMessage() {
-                messageBox.classList.add('hidden');
-                messageBox.textContent = '';
-            }
-
-            // Event listener for the calculate button
-            calculateButton.addEventListener('click', () => {
-                hideMessage(); // Clear previous messages
-
-                // Parse input values as floating-point numbers
-                const blueDollarBuying = parseFloat(blueDollarBuyingInput.value);
-                const blueDollarSelling = parseFloat(blueDollarSellingInput.value);
-                const inflationRate = parseFloat(inflationRateInput.value);
-                const baseRentUSD = 650; // The fixed base rent in USD - UPDATED TO 650
-
-                // Input validation
-                if (isNaN(blueDollarBuying) || blueDollarBuying <= 0) {
-                    showMessage('Please enter a valid (positive) number for Blue Dollar Buying Price.');
-                    return;
-                }
-                if (isNaN(blueDollarSelling) || blueDollarSelling <= 0) {
-                    showMessage('Please enter a valid (positive) number for Blue Dollar Selling Price.');
-                    return;
-                }
-                if (isNaN(inflationRate) || inflationRate < 0) {
-                    showMessage('Please enter a valid (non-negative) number for Monthly Inflation Rate.');
-                    return;
-                    }
-
-                // Calculate the average blue dollar rate
-                const averageBlueDollar = (blueDollarBuying + blueDollarSelling) / 2;
-
-                // Calculate rent in Argentinian Pesos
-                const rentInPesos = baseRentUSD * averageBlueDollar;
-
-                // Calculate rent with inflation
-                // Inflation is added as a percentage, so (1 + rate/100)
-                const rentWithInflation = rentInPesos * (1 + inflationRate / 100);
-
-                // Format results as currency (Argentinian Pesos)
-                const formatter = new Intl.NumberFormat('es-AR', {
-                    style: 'currency',
-                    currency: 'ARS',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                });
-
-                // Update the display elements with the calculated values
-                rentInPesosDisplay.textContent = formatter.format(rentInPesos);
-                rentWithInflationDisplay.textContent = formatter.format(rentWithInflation);
-            });
-
-            // Trigger calculation on page load with default values
-            calculateButton.click();
-        });
-    </script>
-</body>
-</html>
+    <section class="card wide history-card">
+      <h2 data-i="historyTitle">History</h2><div class="history"><table><thead><tr><th data-i="date">Date</th><th>USD</th><th data-i="buy">Buy</th><th data-i="sell">Sell</th><th data-i="average">Average</th><th>IPC</th><th>ARS</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+      <div class="actions"><button class="btn secondary" id="csvBtn">CSV</button><button class="btn danger" id="clearBtn" data-i="clear">Clear history</button></div>
+    </section>
+  </div>
+  <p class="note" data-i="sourceNote">Blue Dollar: DolarAPI. IPC: official Argentina Time Series API / INDEC series. Always verify downloaded values before payment.</p>
+</div>
+<script>
+const T={
+ en:{title:'Argentina Rent Calculator',subtitle:'Blue Dollar average + three-month IPC',rentTitle:'Base rent',baseRent:'Base rent (USD)',rentHelp:"The contract's monthly USD amount.",blueTitle:'Blue Dollar',buy:'Compra / Buy',sell:'Venta / Sell',average:'Average',refreshBlue:'Download Blue Dollar',ipcTitle:'IPC — latest three published months',ipcHelp:"The three percentages are added together, according to your landlord's method.",totalIpc:'Total IPC',refreshIpc:'Download IPC',resultTitle:'Calculation',blueAverage:'Blue average',rentArsBefore:'Rent before IPC',ipcIncrease:'IPC increase',finalRent:'Final rent',save:'Save calculation',copy:'Copy report',share:'Share',pdf:'Print / PDF',method:'Calculation method',reportTitle:'Report',historyTitle:'History',date:'Date',clear:'Clear history',sourceNote:'Blue Dollar: DolarAPI. IPC: official Argentina Time Series API / INDEC series. Always verify downloaded values before payment.',blueLoaded:'Blue Dollar downloaded',blueFail:'Automatic download failed. Enter Compra and Venta manually.',ipcLoaded:'IPC downloaded',ipcFail:'Automatic IPC download failed. Enter the three published monthly figures manually.',copied:'Report copied.',saved:'Calculation saved.',confirmClear:'Clear all saved calculations?',methodText:'1) Average Blue Dollar = (Compra + Venta) ÷ 2. 2) Base rent in ARS = USD rent × average. 3) Total IPC = month 1 + month 2 + month 3. 4) Final rent = base ARS × (1 + total IPC ÷ 100).'},
+ es:{title:'Calculadora de Alquiler',subtitle:'Promedio del dólar blue + IPC de tres meses',rentTitle:'Alquiler base',baseRent:'Alquiler base (USD)',rentHelp:'El monto mensual en USD establecido en el contrato.',blueTitle:'Dólar blue',buy:'Compra',sell:'Venta',average:'Promedio',refreshBlue:'Descargar dólar blue',ipcTitle:'IPC — últimos tres meses publicados',ipcHelp:'Los tres porcentajes se suman, según el método utilizado por la propietaria.',totalIpc:'IPC total',refreshIpc:'Descargar IPC',resultTitle:'Cálculo',blueAverage:'Promedio blue',rentArsBefore:'Alquiler antes del IPC',ipcIncrease:'Aumento por IPC',finalRent:'Alquiler final',save:'Guardar cálculo',copy:'Copiar informe',share:'Compartir',pdf:'Imprimir / PDF',method:'Método de cálculo',reportTitle:'Informe',historyTitle:'Historial',date:'Fecha',clear:'Borrar historial',sourceNote:'Dólar blue: DolarAPI. IPC: API oficial de Series de Tiempo de Argentina / serie INDEC. Verifique siempre los valores descargados antes del pago.',blueLoaded:'Dólar blue descargado',blueFail:'Falló la descarga automática. Ingrese Compra y Venta manualmente.',ipcLoaded:'IPC descargado',ipcFail:'Falló la descarga automática del IPC. Ingrese manualmente los tres valores mensuales publicados.',copied:'Informe copiado.',saved:'Cálculo guardado.',confirmClear:'¿Borrar todos los cálculos guardados?',methodText:'1) Promedio del dólar blue = (Compra + Venta) ÷ 2. 2) Alquiler base en ARS = alquiler USD × promedio. 3) IPC total = mes 1 + mes 2 + mes 3. 4) Alquiler final = base ARS × (1 + IPC total ÷ 100).'}
+};
+let lang=localStorage.getItem('rentLang')||'en';
+const $=id=>document.getElementById(id); const n=v=>Number(v)||0;
+const monthFmt=(date,language)=>new Intl.DateTimeFormat(language==='es'?'es-AR':'en-GB',{month:'long',year:'numeric',timeZone:'UTC'}).format(date);
+function buildIpcRows(){const box=$('ipcRows');box.innerHTML='';for(let i=0;i<3;i++){const d=document.createElement('div');d.innerHTML=`<label><span id="ipcLabel${i}">${lang==='es'?'Mes IPC':'IPC month'} ${i+1}</span></label><input id="ipc${i}" type="number" step="0.01" value="0">`;box.appendChild(d);d.querySelector('input').addEventListener('input',calc)}}
+function applyLang(){document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(e=>{const k=e.dataset.i;if(T[lang][k])e.textContent=T[lang][k]});$('enBtn').classList.toggle('active',lang==='en');$('esBtn').classList.toggle('active',lang==='es');$('methodText').textContent=T[lang].methodText;renderHistory();calc()}
+function money(v,currency='ARS'){return new Intl.NumberFormat(lang==='es'?'es-AR':'en-US',{style:'currency',currency,maximumFractionDigits:currency==='ARS'?0:2}).format(v)}
+function number(v,d=2){return new Intl.NumberFormat(lang==='es'?'es-AR':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v)}
+function values(){const buy=n($('blueBuy').value),sell=n($('blueSell').value),avg=(buy+sell)/2,rent=n($('rentUsd').value),ipc=[0,1,2].map(i=>n($('ipc'+i).value)),total=ipc.reduce((a,b)=>a+b,0),base=rent*avg,inc=base*total/100,final=base+inc;return{buy,sell,avg,rent,ipc,total,base,inc,final}}
+function calc(){const v=values();$('blueAvg').value=v.avg?number(v.avg,2):'';$('ipcTotal').value=number(v.total,2)+' %';$('rBlue').textContent=v.avg?number(v.avg,2):'—';$('rBaseArs').textContent=v.base?money(v.base):'—';$('rIncrease').textContent=v.inc?money(v.inc):money(0);$('rFinal').textContent=v.final?money(v.final):'—';$('report').textContent=reportText(v)}
+function reportText(v){const labels=[0,1,2].map(i=>$('ipcLabel'+i)?.textContent||`IPC ${i+1}`);const date=new Intl.DateTimeFormat(lang==='es'?'es-AR':'en-GB',{dateStyle:'long'}).format(new Date());if(lang==='es')return `CÁLCULO DEL ALQUILER\n\nFecha: ${date}\nAlquiler base: USD ${number(v.rent,2)}\n\nDólar blue\nCompra: ${number(v.buy,2)}\nVenta: ${number(v.sell,2)}\nPromedio: ${number(v.avg,2)}\n\nAlquiler antes del IPC: ${money(v.base)}\n\nIPC\n${labels[0]}: ${number(v.ipc[0],2)}%\n${labels[1]}: ${number(v.ipc[1],2)}%\n${labels[2]}: ${number(v.ipc[2],2)}%\nIPC total (suma): ${number(v.total,2)}%\nAumento por IPC: ${money(v.inc)}\n\nALQUILER FINAL: ${money(v.final)}`;
+return `ARGENTINA RENT CALCULATION\n\nDate: ${date}\nBase rent: USD ${number(v.rent,2)}\n\nBlue Dollar\nCompra / Buy: ${number(v.buy,2)}\nVenta / Sell: ${number(v.sell,2)}\nAverage: ${number(v.avg,2)}\n\nRent before IPC: ${money(v.base)}\n\nIPC\n${labels[0]}: ${number(v.ipc[0],2)}%\n${labels[1]}: ${number(v.ipc[1],2)}%\n${labels[2]}: ${number(v.ipc[2],2)}%\nTotal IPC (sum): ${number(v.total,2)}%\nIPC increase: ${money(v.inc)}\n\nFINAL RENT: ${money(v.final)}`}
+async function refreshBlue(){const s=$('blueStatus');s.className='status';s.textContent='…';try{const r=await fetch('https://dolarapi.com/v1/dolares/blue',{cache:'no-store'});if(!r.ok)throw Error();const j=await r.json();$('blueBuy').value=j.compra;$('blueSell').value=j.venta;s.textContent=`${T[lang].blueLoaded}: ${new Date(j.fechaActualizacion||Date.now()).toLocaleString(lang==='es'?'es-AR':'en-GB')}`;calc()}catch(e){s.className='status error';s.textContent=T[lang].blueFail}}
+async function refreshIpc(){const s=$('ipcStatus');s.className='status';s.textContent='…';try{const url='https://apis.datos.gob.ar/series/api/series?ids=103.1_I2N_2016_M_19&representation_mode=percent_change&limit=12';const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error();const j=await r.json();let rows=(j.data||[]).filter(x=>Array.isArray(x)&&x[1]!=null).slice(-3);if(rows.length<3)throw Error();rows.forEach((x,i)=>{const date=new Date(x[0]+'T00:00:00Z');$('ipcLabel'+i).textContent=monthFmt(date,lang);$('ipc'+i).value=(Number(x[1])*100).toFixed(2)});s.textContent=T[lang].ipcLoaded;calc()}catch(e){s.className='status error';s.textContent=T[lang].ipcFail}}
+function getHistory(){try{return JSON.parse(localStorage.getItem('rentHistory')||'[]')}catch{return[]}}
+function save(){const v=values();const rec={date:new Date().toISOString(),...v,labels:[0,1,2].map(i=>$('ipcLabel'+i).textContent)};const h=getHistory();h.unshift(rec);localStorage.setItem('rentHistory',JSON.stringify(h.slice(0,100)));renderHistory();alert(T[lang].saved)}
+function renderHistory(){const b=$('historyBody');if(!b)return;b.innerHTML='';getHistory().forEach(x=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${new Date(x.date).toLocaleDateString(lang==='es'?'es-AR':'en-GB')}</td><td>${number(x.rent,2)}</td><td>${number(x.buy,2)}</td><td>${number(x.sell,2)}</td><td>${number(x.avg,2)}</td><td>${number(x.total,2)}%</td><td>${money(x.final)}</td>`;b.appendChild(tr)})}
+async function copyReport(){await navigator.clipboard.writeText($('report').textContent);alert(T[lang].copied)}
+async function share(){const text=$('report').textContent;if(navigator.share){await navigator.share({title:T[lang].title,text})}else copyReport()}
+function csv(){const rows=[['Date','USD','Compra','Venta','Average','IPC total','Final ARS'],...getHistory().map(x=>[x.date,x.rent,x.buy,x.sell,x.avg,x.total,x.final])];const blob=new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rent-calculations.csv';a.click();URL.revokeObjectURL(a.href)}
+$('enBtn').onclick=()=>{lang='en';localStorage.setItem('rentLang',lang);applyLang()};$('esBtn').onclick=()=>{lang='es';localStorage.setItem('rentLang',lang);applyLang()};$('refreshBlue').onclick=refreshBlue;$('refreshIpc').onclick=refreshIpc;$('saveBtn').onclick=save;$('copyBtn').onclick=copyReport;$('shareBtn').onclick=share;$('printBtn').onclick=()=>window.print();$('csvBtn').onclick=csv;$('clearBtn').onclick=()=>{if(confirm(T[lang].confirmClear)){localStorage.removeItem('rentHistory');renderHistory()}};
+['rentUsd','blueBuy','blueSell'].forEach(id=>$(id).addEventListener('input',calc));buildIpcRows();applyLang();refreshBlue();refreshIpc();if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js');
+</script>
+</body></html>
